@@ -41,12 +41,12 @@ end
 
 %% Cross-spectra, Smoothing and Coherence
 for i=1:nch
-    sW2(:,:,i)=smooth_mat(abs(W(:,:,i)).^2,dt,nsig*scale);
+    sW2(:,:,i)=temp_avg_wave(abs(W(:,:,i)).^2,dt,nsig*scale);
 end
 for i=1:nch
     for j=i+1:nch
         Wxy(:,:,i,j)  = squeeze(W(:,:,i).*conj(W(:,:,j)));
-        sWxy(:,:,i,j) = smooth_mat(Wxy(:,:,i,j),dt,nsig*scale);
+        sWxy(:,:,i,j) = temp_avg_wave(Wxy(:,:,i,j),dt,nsig*scale);
         if nargout>3
             Wxy(:,:,j,i)  = conj(Wxy(:,:,i,j));
         end

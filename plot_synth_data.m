@@ -1,24 +1,25 @@
 %% Plot the outcome of several trials trying to replicate PSD of synthetic time series
 
+
+%%  Choose a method (PCC, ImCoh, wPLI)
 %% PCC
-% fname = 'PSD_synth_PCC_ns6_w12_nl3_v2';
-% load(fname)
-% tit_str = ['PCC, $\omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+meth = 'PCC';
+synth_data_PCC
 
 %% IC
-% fname = 'PSD_synth_IC_p01_ns6_w12_nl3';
-% load(fname)
-% tit_str = ['IC, $p=0.01, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+% meth = 'IC';
+% synth_data_IC
 
 %% PLI
-synth_data_PLI
-tit_str = ['wPLI, $p=0.01, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+% meth = 'wPLI';
+% synth_data_PLI
+
+%%
 
 
-
+% Figure
 fig1 = figure('Papersize', [16 10], 'PaperPosition', [0.75 0.5 14.5 9], ...
         'PaperPositionmode', 'manual', 'Visible', 'on'); 
-
     
 %% Parameters
 ds    = 1;
@@ -32,18 +33,22 @@ limy  = [1e-8 1e-6];
 
 
 %% PCC
-% M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2) mean(Pvc,2)+1e-19]';
-% lineprops.col={'k'; 'r'; 'b'; 'g'};
-% E = [ min([mean(Ptot,2)'-1e-20; std(Ptot,0,2)']); ...
-%     min([mean(Pinc,2)'-1e-20; std(Pinc,0,2)']);...
-%     min([mean(Pcoh,2)'-1e-20; std(Pcoh,0,2)']);...
-%     min([mean(Pvc, 2)'-1e-20; std(Pvc, 0,2)']) ]; %% CHECKEN!
+if strcmp(meth,'PCC')
+    M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2) mean(Pvc,2)+1e-19]';
+    lineprops.col={'k'; 'r'; 'b'; 'g'};
+    E = [ min([mean(Ptot,2)'-1e-20; std(Ptot,0,2)']); ...
+        min([mean(Pinc,2)'-1e-20; std(Pinc,0,2)']);...
+        min([mean(Pcoh,2)'-1e-20; std(Pcoh,0,2)']);...
+        min([mean(Pvc, 2)'-1e-20; std(Pvc, 0,2)']) ]; %% CHECKEN!
+end
 
 %% IC or PLI
-M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2)]';
-lineprops.col={'k'; 'r'; 'b'};
-E = [ std(Ptot,0,2) std(Pinc,0,2) std(Pcoh,0,2) ]'; %% CHECKEN!
-E = min(cat(3, E, M-(1e-10)),[],3);
+if any(strcmp(meth,{'wPLI', 'PLI', 'IC'}))
+    M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2)]';
+    lineprops.col={'k'; 'r'; 'b'};
+    E = [ std(Ptot,0,2) std(Pinc,0,2) std(Pcoh,0,2) ]'; %% CHECKEN!
+    E = min(cat(3, E, M-(1e-10)),[],3);
+end
 
 %%
 
@@ -64,10 +69,10 @@ xb2   = xb2/A;
 xg    = xg/A;
 
 clear Psig
-[~,~,~,Psig(:,1)] = procdata(xa , 'freq', f, 'w0', w0, 'filt', [], 'dt', dt);
-[~,~,~,Psig(:,2)] = procdata(xb1, 'freq', f, 'w0', w0, 'filt', [], 'dt', dt);
-[~,~,~,Psig(:,3)] = procdata(xb2, 'freq', f, 'w0', w0, 'filt', [], 'dt', dt);
-[~,~,~,Psig(:,4)] = procdata(xg , 'freq', f, 'w0', w0, 'filt', [], 'dt', dt);
+[~,~,~,Psig(:,1)] = preprocdata(xa , 'freq', f, 'w0', w0, 'dt', dt);
+[~,~,~,Psig(:,2)] = preprocdata(xb1, 'freq', f, 'w0', w0, 'dt', dt);
+[~,~,~,Psig(:,3)] = preprocdata(xb2, 'freq', f, 'w0', w0, 'dt', dt);
+[~,~,~,Psig(:,4)] = preprocdata(xg , 'freq', f, 'w0', w0, 'dt', dt);
 loglog(f,Psig,'k--');
 
 %% PCC
@@ -79,15 +84,16 @@ h = legend('total (sine+noise)', 'incoherent', 'coherent', ...
     'sine w/o noise');
 
 %%
+
+% Set Legend, Axes, and Title
 set(h, 'Interpreter', 'Latex');
 ylim([1e-8 1e-6])
-
-% Set Axes
 set(gca, 'Ysca', 'log')
 xlim([1 70])
 xlabel('f [Hz]', 'Interpreter', 'Latex')
 ylabel('PSD [V$^2$/Hz]', 'Interpreter', 'Latex')
-title(tit_str, 'Interpreter', 'Latex');
+title([meth ', \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'], ...
+    'Interpreter', 'Latex');
 
 % Save and close
 % print(fig1, fname, '-depsc')

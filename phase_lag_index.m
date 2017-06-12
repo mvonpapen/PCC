@@ -17,17 +17,17 @@ end
 
 % Average sign of phases over time
 if ~wPLI
-    Ph_avg = smooth_mat( sign(Im), dt, nsig*scale );
+    Ph_avg = temp_avg_wave( sign(Im), dt, nsig*scale );
 else
     % biased est
-    Ph_avg_num   = smooth_mat( Im, dt, nsig*scale );
-    Ph_avg_denom = smooth_mat( abs(Im), dt, nsig*scale );
+    Ph_avg_num   = temp_avg_wave( Im, dt, nsig*scale );
+    Ph_avg_denom = temp_avg_wave( abs(Im), dt, nsig*scale );
     Ph_avg       = Ph_avg_num./Ph_avg_denom;
 %     % debiased est (taken from fieldtrip
 %     Im      = imag(Wxy);
-%     outsum  = smooth_mat( Im, dt, nsig*scale );
-%     outsumW = smooth_mat( abs(Im), dt, nsig*scale );
-%     outssq  = smooth_mat( Im.^2, dt, nsig*scale, 'smooth','gauss_square' );
+%     outsum  = temp_avg_wave( Im, dt, nsig*scale );
+%     outsumW = temp_avg_wave( abs(Im), dt, nsig*scale );
+%     outssq  = temp_avg_wave( Im.^2, dt, nsig*scale, 'smooth','gauss_square' );
 %     Ph_avg  = (outsum.^2 - outssq)./(outsumW.^2 - outssq);
 end
   

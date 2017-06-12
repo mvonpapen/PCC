@@ -25,9 +25,7 @@ args = struct('freq',logspace(0,2.7,30),...
             'dt',1/2456,...
             'w0', 12);
 args = parseArgs(varargin,args);
-arts = args.art;
 w0 = args.w0;
-dec = args.dec;
 
 
 %% Parameters
