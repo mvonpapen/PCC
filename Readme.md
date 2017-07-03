@@ -8,6 +8,6 @@ Language: Matlab
 
 Test example: plot_synth_data.m generates a PCC of synthetic data as presented in Fig. 7 of /von Papen et al./ (2017) [requires mseb plotting function by Andreas Trier Poulsen (https://de.mathworks.com/matlabcentral/fileexchange/47950-mseb-x-y-errbar-lineprops-transparent-?focused=3861325&tab=function)]
 
-Contributors: Michael von Papen, Felix Gerick
+Contributors: Michael von Papen (Juelich Research Centre, INM-6), Felix Gerick (University of Cologne, IGM)
 
 License: GNU
