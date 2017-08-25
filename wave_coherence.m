@@ -1,4 +1,4 @@
-function [C, sWxy, sW2, Wxy, Cohy] = wave_cohere ( W, scale, nsig, ds, dt )
+function [C, sWxy, sW2, Wxy, Cohy] = wave_coherence ( W, scale, nsig, ds, dt )
 %% WAVE_COHERE Compute wavelet magnitude squared coherence from a single wavelet coefficient matrix
 % 
 %   [C, sWxy, sW, Wxy] = WAVE_COHERE( W, scale, nsig, ds, dt )
@@ -58,9 +58,9 @@ for i=1:nch
     end
 end
 
-% Downsample data, take every dec'th value
+% Downsample data, take every ds'th value
 if ds~=1
-    sW2  = sW2(:,1:ds:end,:); % sW2 already in units of power [V^2/Hz]
+    sW2  = sW2(:,1:ds:end,:); % sW2 already squared
     sWxy = sWxy(:,1:ds:end,:,:);
     for i=1:nch
         for j=i+1:nch
