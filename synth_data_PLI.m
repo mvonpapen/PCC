@@ -34,11 +34,12 @@ for j=1:N
 
     %% Spectral analysis
     scale            = (w0+sqrt(2+w0^2))/4/pi ./ f;
-    [~, W, coi, P]   = preprocdata([x y], 'freq', f, 'w0', w0, 'dt', dt);
+    [X, W1, coi, P]  = preprocdata([x y], 'freq', f, 'w0', w0, 'dt', dt);
+    sigma2           = var(X(:,1)); % variance of original time series
     Ptot(:,j)        = P(:,1);
-    Wxy              = squeeze(W(:,:,1).*conj(W(:,:,2)));
+    Wxy              = squeeze(W1(:,:,1).*conj(W1(:,:,2)));
     PLI              = phase_lag_index(imag(Wxy), scale, nsig, dt, 'wPLI', wPLI);
-    [a, b]           = pcc ( f, W, repmat(PLI,1,1,2,2), coi, sig );
+    [a, b]           = pcc ( f, W1, repmat(PLI,1,1,2,2), coi, sig );
     Pcoh(:,j)        = a(:,1,2);
     Pinc(:,j)        = b(:,1,2);
     
