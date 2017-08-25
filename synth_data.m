@@ -1,4 +1,4 @@
-function [x, y] = synth_ts( t, nl, A, dp )
+function [x, y] = synth_data( t, nl, A, dp )
 
 if nargin<4
     dp = 30;
