@@ -4,6 +4,8 @@ The wavelet-based phase coherence classification decomposes signals such as the 
 
 The wavelet transform is applied using a modified code originally provided by Torrence & Compo (see http://paos.colorado.edu/research/wavelets/). The modified code allows to perform the wavelet analysis for any given frequency instead of a logarithmically equidistant set of frequencies.
 
+Please excuse the current state of this code. It needs to be cleaned up, restructured and commented. This work is in progress. If you have any questions, please feel free to ask.
+
 Language: Matlab
 
 Test example: plot_synth_data.m generates a PCC of synthetic data as presented in Fig. 7 of /von Papen et al./ (2017) [requires mseb plotting function by Andreas Trier Poulsen (https://de.mathworks.com/matlabcentral/fileexchange/47950-mseb-x-y-errbar-lineprops-transparent-?focused=3861325&tab=function)]
