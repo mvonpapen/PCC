@@ -9,9 +9,11 @@ N     = 10;
 alpha = 10;  %coh
 beta  = 20;  %vc
 gamma = 50;  %coh
-f     = 1:70;
 dt    = 1/2500;
-nt    = 20/dt;
+T     = 20; %length of time series in s
+f     = 1:100;
+% f     = logspace(log10(1/T),log10(1/2/dt),400); # for reconstruction
+nt    = T/dt;
 t     = (0:nt-1)*dt;
 nl    = 3;
 dp    = 30/180*pi;
@@ -38,9 +40,10 @@ for j=1:N
 
     %% Spectral analysis
     scale            = (w0+sqrt(2+w0^2))/4/pi ./ f;
-    [~, W, coi, P]   = preprocdata([x y], 'freq', f, 'w0', w0, 'dt', dt);
+    [X, W1, coi, P]  = preprocdata([x y], 'freq', f, 'w0', w0, 'dt', dt);
+    sigma2           = var(X(:,1)); % variance of original time series
     Ptot(:,j)        = P(:,1);
-    [C, Wxy, W]      = wave_coherence(W, scale, nsig, 1, dt);
+    [C, Wxy, W]      = wave_coherence(W1, scale, nsig, 1, dt);
     [a, b, c]        = pcc ( f, W, C, coi, sig, Wxy, phase_thresh );
     Pcoh(:,j)        = a(:,1,2);
     Pinc(:,j)        = b(:,1,2);
