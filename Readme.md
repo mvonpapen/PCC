@@ -6,7 +6,7 @@ von Papen, M. et al. (2017) *Phase-coherence classification: A new wavelet-based
 
 The wavelet transform is applied using a modified code originally provided by Torrence & Compo (see http://paos.colorado.edu/research/wavelets/). The modified code allows to perform the wavelet analysis for any given frequency instead of a logarithmically equidistant set of frequencies.
 
-Please excuse the current state of this code. It needs to be cleaned up, restructured and commented. This work is in progress. If you have any questions, please feel free to ask.
+Code at current stage needs some cleaning up and better commenting. This work is in progress. If you have any questions, please feel free to ask.
 
 Language: Matlab
 
