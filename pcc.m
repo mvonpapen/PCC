@@ -1,77 +1,86 @@
 function [Pcoh, Pinc, Pvc] = pcc ( f, W, C, coi, sig, Wxy, phase_thresh )
-%% Phase-coherence classification and subsequent estimation of PSD for each signal class
+%% Phase-coherence classification and subsequent estimation of avg PSD for each signal class
 % 
 % 
 %   INPUT:
 %           f:      frequency vector
-%           W:      Wavelet coefficient matrix
+%           W:      Wavelet coefficient matrix [Nf x Nt x Nch]
 %           C:      Coherence matrix (can also be imaginary part of coherency)
+%                   [Nf x Nt x Nch x Nch]
 %           coi:    Cone of influence vector
 %           sig:    Significance threshold according to nsig and w0
-%           Wxy:    Cross-Wavelet coefficient matrix
+%           Wxy:    Cross-Wavelet coefficient matrix [Nf x Nt x Nch x Nch]
 %           phase_thres: Phase threshold in degrees
 % 
 %   OUTPUT:
-%           Pcoh    PSD corresponding to coherent parts of C
-%           Pinc    PSD corresponding to incoherent parts of C
-%           Pvc     PSD corresponding to coherent parts of C with |dPhi|<phase_thresh
+%           Pcoh    PSD of coherent signal [Nf x Nch x Nch]
+%           Pinc    PSD of incoherent signal [Nf x Nch x Nch]
+%           Pvc     PSD of volume-conducted signal [Nf x Nch x Nch]
+%                   (=coherent signal with |dPhi|<phase_thresh)
 % 
 % Author: Michael von Papen
 % Date: 22.04.16
 %
 % Notice: Please acknowledge the use of this program in any publications:
-%   ``Software for application of PCC was provided by von Papen et al.,
-%     and is available at git under 'PCC_Matlab'.
+%   "Software for application of PCC was provided by von Papen et al. (2017)
+%    and is available on github."
 %
-% Reference: von Papen et al., Phase-coherence classification: a new wavelet-based 
-%            method to separate local field potentials into local (in)coherent and 
-%            volume-conducted components. Journal of Neuroscience Methods, 2017
+% Reference: von Papen, M. et al. (2017) ‘Phase-coherence classification: 
+%            A new wavelet-based method to separate local field potentials 
+%            into local (in)coherent and volume-conducted components’, 
+%            Journal of Neuroscience Methods, 291, pp. 198–212. 
+%            doi: 10.1016/j.jneumeth.2017.08.021.
 %
-% We would be grateful to receive a copy of such publications (m.von.papen@fz-juelich.de)!
+% We would be grateful to receive a copy of such publications (m.von.papen@fz-juelich.de).
 
+
+% Set phase threshold to determine volume-conducted signal
+% Phi_c=15.5 deg according to w0=12 and nsigma=6
+if nargin<8
+    phase_thresh = 15.5;
+end
 
 
 if nargin<6 && nargout>2
     error('Cannot compute Pvc without Phase matrix!')
 end
+
+
+% Set significance to 1% threshold
 if nargin<5
-    sig=0.41;
+    sig = 0.41;
 end
 
-[nf, nt, nx] = size ( W );
-[nf2, nt2, nxw, ny] = size ( C );
 
+% Check sizes of input matrices
+[nf, nt, nx]        = size ( W );
+[nf2, nt2, nxw, ny] = size ( C );
 if nf~=nf2 || nt~=nt2 || nx~=nxw || nx~=ny
     error('Sizes of W and C do not match!')
 end
 clear nf2 nt2 nxw ny
 
-nout = nargout;
 
 % Set cone of influence
 if nargin<3
-    coi=ones(nt,nx)*9e9;
+    coi = ones(nt,nx)*9e9;
 end
 
-% Set phase threshold to determine volume conduction PSD
-if nargin<8
-    phase_thresh = 15.5;
-end
 
 % Pre-allocate variables
 Pcoh = NaN(nf,nx,nx);
 Pinc = NaN(nf,nx,nx);
 if nargout>2
-    Pvc  = NaN(nf,nx,nx);
+    Pvc = NaN(nf,nx,nx);
 end
-
 if nargin<6
     Ph = ones(size(C))+phase_thresh;
 else
     Ph = abs(angle(Wxy)/pi*180);
 end
 
-%% Begin loop
+
+%% Begin loop over channels
 for i=1:nx
     
     Xw = W(:,:,i);
@@ -102,7 +111,7 @@ for i=1:nx
         
         % Optional: calculate PSD for coherent coefficients with dPhi ~ 0 & 180
         % corresponding to volume conduction
-        if nout>2
+        if nargout>2
             vc = ~coh & ~inc;
             Wi = zeros(nf,nt);
             tmp = Xw;
