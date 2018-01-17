@@ -6,6 +6,8 @@ von Papen, M. et al. (2017) *Phase-coherence classification: A new wavelet-based
 
 The wavelet transform is applied using a modified code originally provided by Torrence & Compo (see http://paos.colorado.edu/research/wavelets/). The modified code allows to perform the wavelet analysis for any given frequency instead of a logarithmically equidistant set of frequencies.
 
+![PCC applied to local field potential wothin subthalamic nucleus (von Papen et al., 2017)](https://raw.githubusercontent.com/mvonpapen/PCC/master/LFP_P03_Ap_subsig.png)
+
 Code at current stage needs some cleaning up and better commenting. This work is in progress. If you have any questions, please feel free to ask.
 
 Language: Matlab
