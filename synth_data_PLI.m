@@ -3,7 +3,6 @@ nsig  = 6;
 w0    = 12;
 sig   = 0.705; %p01=0.705, p05=0.555
 N     = 10;
-% NOTE: If wPLI=true use Im(Cohy), else Im(Wxy)
 wPLI  = false;
 
 % Parameters for synth data
