@@ -14,7 +14,6 @@ plot_synth_data.m generates a PCC of synthetic data as presented in Fig. 7 of [v
 <!--Please excuse the current state of this code. It needs to be cleaned up, restructured and commented. -->
 This work is in progress. If you have any questions, please feel free to ask.
 
-Contributors: Michael von Papen (Juelich Research Centre, INM-6), Felix Gerick (University of Cologne, IGM)
 
 ## Contributors
 

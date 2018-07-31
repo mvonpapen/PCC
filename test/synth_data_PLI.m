@@ -3,7 +3,7 @@ nsig  = 6;
 w0    = 12;
 sig   = 0.705; %p01=0.705, p05=0.555
 N     = 10;
-wPLI  = false;
+wPLI  = true;
 
 % Parameters for synth data
 alpha = 10;  %coh
