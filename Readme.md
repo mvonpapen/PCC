@@ -17,7 +17,7 @@ This work is in progress. If you have any questions, please feel free to ask.
 
 ## Contributors
 
-Michael von Papen (Juelich Research Centre, INM-6), Felix Gerick (University of Cologne, IGM)
+Michael von Papen (Juelich Research Centre, INM-6), Felix Gerick (ISTerre, Université Grenoble Alpes)
 
 ## License
 GNU
