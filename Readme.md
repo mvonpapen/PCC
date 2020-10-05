@@ -7,17 +7,9 @@ The wavelet transform is applied using a modified code originally provided by [T
 ## Test example
 plot_synth_data.m generates a PCC of synthetic data as presented in Fig. 7 of [von Papen et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0165027017303035). The example requires the [mseb plotting function by Andreas Trier Poulsen](https://de.mathworks.com/matlabcentral/fileexchange/47950-mseb-x-y-errbar-lineprops-transparent-?focused=3861325&tab=function).
 
-## TO DO
-- Documentation
-- More testing
-
-<!--Please excuse the current state of this code. It needs to be cleaned up, restructured and commented. -->
-This work is in progress. If you have any questions, please feel free to ask.
-
-
 ## Contributors
 
-Michael von Papen (Juelich Research Centre, INM-6), Felix Gerick (ISTerre, Université Grenoble Alpes)
+Michael von Papen, Felix Gerick
 
 ## License
 GNU
